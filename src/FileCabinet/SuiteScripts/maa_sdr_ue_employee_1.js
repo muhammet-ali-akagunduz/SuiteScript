@@ -13,7 +13,7 @@ define(['N/record', 'N/http'],
                 var employee = context.newRecord;
 
                 var supervisor = record.load({
-                    type: record.Type.EMPLOYEE,
+                    type: record.Type.EMPLOYEE  ,
                     id: employee.getValue('supervisor')
                 });
 
