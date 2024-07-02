@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+    <head>
+        <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}"
+            src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}"
+            src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale == "zh_CN">
+        <link name="NotoSansCJKsc" type="font" subtype="opentype"
+            src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+        <#elseif .locale == "zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype"
+            src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+        <#elseif .locale == "ja_JP">
+        <link name="NotoSansCJKjp" type="font" subtype="opentype"
+            src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+        <#elseif .locale == "ko_KR">
+        <link name="NotoSansCJKkr" type="font" subtype="opentype"
+            src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+        <#elseif .locale == "th_TH">
+            <link name="NotoSansThai" type="font" subtype="opentype"
+                src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}"
+                bytes="2" />
+        </#if>
+        <macrolist>
+            <macro id="nlheader">
+
+                <table class="header" style="width: 100%;">
+                    <tr>
+                        <td rowspan="3">
+                            <#if companyInformation.logoUrl?length != 0>
+                            <@filecabinet nstype="image" style="float: left; margin: 7px;" src="${companyInformation.logoUrl}" /> </#if>
+                            <span class="nameandaddress">${companyInformation.companyName}</span>
+                            <br />
+                            <span class="nameandaddress">${companyInformation.addressText}</span>
+                        </td>
+                        <td align="right">
+                            <span class="title">${record@title}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <span class="number">#${record.tranid}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">${record.trandate}</td>
+                    </tr>
+                </table>
+
+            </macro>
+            <macro id="nlfooter">
+
+                <table class="footer" style="width: 100%;">
+                    <tr>
+                        <td align="right"><pagenumber /> of <totalpages /></td>
+                    </tr>
+                </table>
+
+            </macro>
+        </macrolist>
+        <style type="text/css"> * { <#if .locale == "zh_CN"> font-family: NotoSans, NotoSansCJKsc, sans-serif; <#elseif .locale == "zh_TW">
+            font-family: NotoSans, NotoSansCJKtc, sans-serif; <#elseif .locale == "ja_JP"> font-family: NotoSans,
+            NotoSansCJKjp, sans-serif; <#elseif .locale == "ko_KR"> font-family: NotoSans, NotoSansCJKkr, sans-serif; <#elseif .locale == "th_TH">
+            font-family: NotoSans, NotoSansThai, sans-serif; <#else>
+                font-family: NotoSans, sans-serif;
+            </#if> } table { font-size: 9pt; table-layout:
+            fixed; } th { font-weight: bold; font-size: 8pt; vertical-align: middle; padding: 5px
+            6px 3px; background-color: #e3e3e3; color: #333333; } td { padding: 4px 6px; } td p {
+            align:left } b { font-weight: bold; color: #333333; } table.header td { padding: 0;
+            font-size: 10pt; } table.footer td { padding: 0; font-size: 8pt; } table.itemtable th {
+            padding-bottom: 10px; padding-top: 10px; } table.body td { padding-top: 2px; }
+            table.total { page-break-inside: avoid; table-layout: auto; margin-top: 10px; }
+            tr.totalrow td { background-color: #e3e3e3; padding-top: 10px; padding-bottom: 10px; }
+            tr.totalrow td.next { padding-top: 0; } td.totalboxtop { font-size: 12pt;
+            background-color: #e3e3e3; } td.addressheader { font-size: 8pt; padding-top: 6px;
+            padding-bottom: 2px; } td.address { padding-top: 0; } td.totalboxmid { font-size: 28pt;
+            padding-top: 20px; background-color: #e3e3e3; } td.totalboxbot { background-color:
+            #e3e3e3; font-weight: bold; } span.title { font-size: 28pt; } span.number { font-size:
+            16pt; } hr { width: 100%; color: #d3d3d3; background-color: #d3d3d3; height: 1px; }
+            .signatures { page-break-inside: avoid; margin-top: 40px; } .signhere { border-bottom:
+            1px solid #d3d3d3; height: 15px; }</style>
+    </head>
+    <body header="nlheader" header-height="10%" footer="nlfooter" footer-height="20pt"
+        padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+        <table style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td class="addressheader" colspan="3">
+                    <strong>${record.billaddress@label}</strong>
+                </td>
+                <td class="addressheader" colspan="3">
+                    <strong>${record.shipaddress@label}</strong>
+                </td>
+                <td class="totalboxtop" colspan="5">
+                    <strong>${record.total@label?upper_case}</strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="address" colspan="3" rowspan="3">${record.billaddress}</td>
+                <td class="address" colspan="3" rowspan="3">${record.shipaddress}</td>
+                <td class="totalboxmid" colspan="5" align="right">${record.total}</td>
+            </tr>
+            <tr>
+                <td class="totalboxbot" colspan="5" align="right"><strong>${record.duedate@label}:</strong>
+                    ${record.duedate}</td>
+            </tr>
+            <#if record.expensereportcurrency?has_content>
+                <tr>
+                    <td class="totalboxbot" colspan="5" align="right"><strong>
+                        ${record.expensereportcurrency@label}:</strong>
+                        ${record.expensereportcurrency}</td>
+                </tr>
+            </#if>
+        </table>
+        <table class="body" style="width: 100%; margin-top: 10px;">
+            <tr>
+                <th>${record.entity@label}</th>
+                <th>${record.duedate@label}</th>
+                <th>${record.otherrefnum@label}</th>
+                <th>${record.memo@label}</th>
+            </tr>
+            <tr>
+                <td>${record.entity}</td>
+                <td>${record.duedate}</td>
+                <td>${record.otherrefnum}</td>
+                <td>${record.memo}</td>
+            </tr>
+        </table>
+        <#if record.expense?has_content>
+            <table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start expenses -->
+                <#list record.expense as expense>
+                    <#if expense_index==0>
+                        <thead>
+                            <tr>
+                                <th colspan="12">${expense.category@label}</th>
+                                <th colspan="4" align="right">${expense.amount@label}</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td colspan="16">
+                                <strong>Reimbursable Expenses</strong>
+                            </td>
+                        </tr>
+                    </#if>
+                    <#if ((expense.isnonreimbursable?is_boolean && !expense.isnonreimbursable) || (expense.isnonreimbursable?is_string && expense.isnonreimbursable = "F")) && ((expense.corporatecreditcard?is_boolean && !expense.corporatecreditcard) || (expense.corporatecreditcard?is_string && expense.corporatecreditcard = "F"))>
+                        <tr>
+                            <td colspan="12">${expense.category}</td>
+                            <td colspan="4" align="right">${expense.amount}</td>
+                        </tr>
+                    </#if>
+                </#list>
+                <#list record.expense as expense>
+                    <#if expense_index==0>
+                        <tr>
+                            <td colspan="16">
+                                <strong>Credit Card Expenses</strong>
+                            </td>
+                        </tr>
+                    </#if>
+                    <#if ((expense.corporatecreditcard?is_boolean && expense.corporatecreditcard) || (expense.corporatecreditcard?is_string && expense.corporatecreditcard = "T"))>
+                        <tr>
+                            <td colspan="12">${expense.category}</td>
+                            <td colspan="4" align="right">${expense.amount}</td>
+                        </tr>
+                    </#if>
+                </#list><!--
+                end expenses -->
+                <#list record.expense as expense>
+                    <#if expense_index==0>
+                        <tr>
+                            <td colspan="16">
+                                <strong>Non-reimbursable Expenses</strong>
+                            </td>
+                        </tr>
+                    </#if>
+                    <#if ((expense.isnonreimbursable?is_boolean && expense.isnonreimbursable) || (expense.isnonreimbursable?is_string && expense.isnonreimbursable = "T"))>
+                        <tr>
+                            <td colspan="12">${expense.category}</td>
+                            <td colspan="4" align="right">${expense.amount}</td>
+                        </tr>
+                    </#if>
+                </#list><!--
+                end expenses -->
+            </table>
+            <hr />
+        </#if>
+        <table class="total" align="right">
+            <tr>
+                <td align="right">
+                    <strong>${record.advance@label}</strong>
+                </td>
+                <td align="right">${record.advance}</td>
+            </tr>
+            <tr class="totalrow">
+                <td align="right">
+                    <strong>${record.total@label}</strong>
+                </td>
+                <td align="right">${record.total}</td>
+            </tr>
+            <#if record.totalbasecurrency?has_content>
+                <tr class="totalrow">
+                    <td class="next" align="right">
+                        <strong>${record.totalbasecurrency@label}</strong>
+                    </td>
+                    <td class="next" align="right">${record.totalbasecurrency}</td>
+                </tr>
+            </#if>
+        </table>
+        <table class="signatures" style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td>I hereby acknowledge that the expenditures listed above were made for valid
+                    company purposes.</td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Employee Signature &amp; Date:</strong>
+                </td>
+            </tr>
+            <tr class="signhere">
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Approver Signature &amp; Date:</strong>
+                </td>
+            </tr>
+            <tr class="signhere">
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </body>
+</pdf>
+<div id="eJOY__extension_root" class="eJOY__extension_root_class" style="all: unset;"></div>
