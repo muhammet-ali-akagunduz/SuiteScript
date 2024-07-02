@@ -8,6 +8,8 @@ define([],
     function () {
 
         return {
+            beforeLoad:function(context){},
+
             afterSubmit: function (context) {
 
             }
